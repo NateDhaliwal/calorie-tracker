@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Add food{% endblock %}
+
+{% block content %}
+
+<h1>Add food</h1>
+<form action="/add" method="post">
+    <label for="vegetable">
+        Add vegetables, seperate by a comma.
+        <input name="vegetable" type="text" required>
+    </label>
+    <br>
+    <label for="meat">
+        Add meat, seperate by a comma.
+        <input name="vegetable" type="text" required>
+    </label>
+    <br>
+    <label for="drink">
+        Add drink, seperate by a comma.
+        <input name="drink" type="text" required>
+    </label>
+    <br>
+    <button class="btn btn-primary" type="submit"><i class="fa-solid fa-plus"></i> Add food</button>
+</form>
+
+{% endblock %}

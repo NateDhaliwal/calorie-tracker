@@ -7,7 +7,8 @@
 {% if session['username'] %}
     <h1>Welcome, {{session['username']}}!</h1>
     <p>Calories today: {{userdata['calories_total']}} / {{userdata['max_calories']}}</p>
-    
+    <br><br>
+    <button class="btn btn-primary" id="add-food"><i class="fa-solid fa-plus"></i> Add food</button>
 {% else %}
     <h1>Login or register to get started</h1>
     <button class="btn btn-primary" id="login-btn">Login</button>

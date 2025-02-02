@@ -79,12 +79,28 @@ p {
 }
 
 .site-header {
+    width: 100%;
+    height:10%;
+    top: 0;
     position: sticky;
     z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center; /*This sets the content in the header to the center.*/
     border: 2px solid var(--primary);
     background-color: var(--secondary);
 }
 
+.site-logo {
+    margin-right: 3px;
+    border-radius: 5px;
+}
+
 .site-title {
     cursor: pointer;
+    left: 0;
+}
+
+.btn.site-logout {
+    right: 0;
 }

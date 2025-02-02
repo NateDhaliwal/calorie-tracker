@@ -2,6 +2,7 @@ from flask import Flask, redirect, render_template, request, session, make_respo
 from fatsecret import Fatsecret
 from sqlitedict import SqliteDict
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 fs = Fatsecret("8298b96e554841309a2ee6094cd60be4", "e0d939065cb54d5c871d135a27eb6f7a")
 userdata = SqliteDict("userdata.sqlite", autocommit=True)
@@ -51,19 +52,19 @@ def register():
         session['username'] = ''
 
     if request.method == 'POST':
-        username = request.form.get('username')
-        passwordRaw = request.form.get('password')
-        age = request.form.get('age')
-        weight = request.form.get('weight')
-        gender = request.form.get('gender')
-        height = request.form.get('height')
+        username = str(request.form.get('username'))
+        passwordRaw = str(request.form.get('password'))
+        age = int(request.form.get('age'))
+        weight = int(request.form.get('weight'))
+        gender = str(request.form.get('gender'))
+        height = int(request.form.get('height'))
         passwordHashed = generate_password_hash(passwordRaw)
         max_calories = 0
         # Create user data
-        if gender == 'male':
-            max_calories = (66.47 + (13.75*weight) + (5.003*height) - (6.755*age))
-        elif gender == 'female':
-            max_calories = (655.1 + (9.563*weight) + (1.850*height) - (4.676*age))
+        if gender == 'Male':
+            max_calories = round(66.47 + (13.75*weight) + (5.003*height) - (6.755*age))
+        elif gender == 'Female':
+            max_calories = round(655.1 + (9.563*weight) + (1.850*height) - (4.676*age))
         userdata[username] = {
             'username': username,
             'passwordHashed': passwordHashed,
@@ -71,20 +72,20 @@ def register():
             'weight': weight,
             'gender': gender,
             'height': height,
-            'max_calories': 1,
+            'max_calories': max_calories,
             'calories_total': {}
         }
         # Login successful, redirect user to '/'
         session['username'] = username
         return redirect('/')
-    return render_template('login.html')
+    return render_template('register.html')
 
 
 @app.route('/')
 def home():
     # Clear the database
-    userdata.clear()
-    session.clear()
+    #userdata.clear()
+    #session.clear()
 
     username = ''
     try:
@@ -98,6 +99,13 @@ def home():
         return render_template('home.html')
     else:
         return render_template('home.html', userdata=userdata[username])
+
+
+@app.route('/add')
+def add_food():
+    if request.method == 'POST':
+        pass
+    return render_template('add-food.html')
 
 
 app.run('0.0.0.0', port=8080, debug=True)
