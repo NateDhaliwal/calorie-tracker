@@ -4,17 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/light.css">
 </head>
+
 <body>
+    <header class="site-header">
+        <img class="site-logo">
+        <h2 class="site-title" id="site-title">Calorie Tracker</h2>
+    </header>
+
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
-                <p style="border-left: 5px grey solid; padding-left: 2px; background-color: lightgray; width: 20%;">{{ message }}</p>
+                {% set css_class = message.split('|')[0] %}
+                {% set message_content = message.split('|')[1] %}
+                <p class="flash {{ css_class }}">{{message_content}}</p>
             {% endfor %}
         {% endif %}
     {% endwith %}
     
     {% block content %}
     {% endblock %}
+    <script type="text/javascript" src="/static/js/base.js"></script>
 </body>
 </html>

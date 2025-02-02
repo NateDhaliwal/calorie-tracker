@@ -1,10 +1,12 @@
-from flask import Flask, redirect, render_template, request, session, make_response, flash
+from flask import Flask, redirect, render_template, request, session, make_response, flash, current_app
 from fatsecret import Fatsecret
 from sqlitedict import SqliteDict
 from werkzeug.security import generate_password_hash, check_password_hash
 
 fs = Fatsecret("8298b96e554841309a2ee6094cd60be4", "e0d939065cb54d5c871d135a27eb6f7a")
 userdata = SqliteDict("userdata.sqlite", autocommit=True)
+
+
 
 '''
 foods = fs.foods_search("Nasi Lemak")
@@ -21,9 +23,9 @@ def login():
     try:
         username = session['username']
         if username:
-            return redirect('/'), flash('Login successful!')
+            return redirect('/'), flash('success|Login successful!')
     except KeyError:
-        pass
+        session['username'] = ''
 
     if request.method == 'POST':
         username = request.form.get('username')
@@ -34,7 +36,7 @@ def login():
             session['username'] = username
             return redirect('/')
         else:
-            flash('Username or password incorrect')
+            flash('danger|Username or password incorrect')
             return render_template('login.html')
     return render_template('login.html')
 
@@ -44,9 +46,9 @@ def register():
     try:
         username = session['username']
         if username:
-            return redirect('/'), flash('Login successful!')
+            return redirect('/'), flash('success|Login successful!')
     except KeyError:
-        pass
+        session['username'] = ''
 
     if request.method == 'POST':
         username = request.form.get('username')
@@ -56,7 +58,12 @@ def register():
         gender = request.form.get('gender')
         height = request.form.get('height')
         passwordHashed = generate_password_hash(passwordRaw)
+        max_calories = 0
         # Create user data
+        if gender == 'male':
+            max_calories = (66.47 + (13.75*weight) + (5.003*height) - (6.755*age))
+        elif gender == 'female':
+            max_calories = (655.1 + (9.563*weight) + (1.850*height) - (4.676*age))
         userdata[username] = {
             'username': username,
             'passwordHashed': passwordHashed,
@@ -64,6 +71,7 @@ def register():
             'weight': weight,
             'gender': gender,
             'height': height,
+            'max_calories': 1,
             'calories_total': {}
         }
         # Login successful, redirect user to '/'
@@ -74,7 +82,22 @@ def register():
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    # Clear the database
+    userdata.clear()
+    session.clear()
+
+    username = ''
+    try:
+        username = session['username']
+    except KeyError:
+        session['username'] = ''
+        username = session['username']
+
+    print(username)
+    if username == '':
+        return render_template('home.html')
+    else:
+        return render_template('home.html', userdata=userdata[username])
 
 
 app.run('0.0.0.0', port=8080, debug=True)

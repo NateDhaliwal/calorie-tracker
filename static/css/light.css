@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+:root {
+    --primary: black;
+    --secondary: white;
+    --success-dark: green;
+    --success-light: rgb(0, 171, 0);
+    --danger-dark: rgb(169, 0, 0);
+    --danger-light: red;
+}
+
+body {
+    text-align: center;
+    font-family: 'Inter', serif;
+}
+
+.flash {
+    padding-left: 3px;
+    width: max-content;
+    --moz-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Firefox */
+    --webkit-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Safari and Chrome */
+    --o-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 5s forwards;
+    --webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+@keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        display: none;
+    }
+}
+
+@-webkit-keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        display: none;
+    }
+}
+
+.flash.success {
+    border-left: 5px var(--success-dark) solid;
+    background-color: var(--success-light);
+    color: var(--secondary);
+}
+
+.flash.danger {
+    border-left: 5px var(--danger-dark) solid;
+    background-color: var(--danger-light);
+    color: var(--secondary);
+}
+
+p {
+    color: var(--primary);
+}
+
+.btn {
+    padding: 3px;
+    border: 2px solid var(--primary);
+    border-radius: 5px;
+    color: var(--primary);
+    background-color: transparent;
+    cursor: pointer;
+    margin: 3px;
+    transition: transform 0.2s;
+}
+
+.btn:hover {
+    background-color: var(--primary);
+    color: var(--secondary);
+    transform: scale(1.1);
+}
+
+.site-header {
+    position: sticky;
+    z-index: 100;
+    border: 2px solid var(--primary);
+    background-color: var(--secondary);
+}
+
+.site-title {
+    cursor: pointer;
+}

@@ -4,6 +4,15 @@
 
 {% block content %}
 
-<h1>Welcome, {{session['username']}}!</h1>
-
+{% if session['username'] %}
+    <h1>Welcome, {{session['username']}}!</h1>
+    <p>Calories today: {{userdata['calories_total']}} / {{userdata['max_calories']}}</p>
+    
+{% else %}
+    <h1>Login or register to get started</h1>
+    <button class="btn btn-primary" id="login-btn">Login</button>
+    <br>
+    <button class="btn btn-primary" id="register-btn">Register</button>
+    <script src="/static/js/home.js" type="text/javascript"></script>
+{% endif %}
 {% endblock %}
