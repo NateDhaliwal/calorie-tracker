@@ -94,17 +94,36 @@ def home():
         session['username'] = ''
         username = session['username']
 
-    print(username)
     if username == '':
         return render_template('home.html')
     else:
         return render_template('home.html', userdata=userdata[username])
 
 
-@app.route('/add')
+@app.route('/logout')
+def logout():
+    username = ''
+    try:
+        username = session['username']
+    except KeyError:
+        session['username'] = ''
+        username = session['username']
+
+    if username != '':
+        usernamePopped = session.pop('username')
+
+    return redirect('/'), flash(f'success|You have been logged out.')
+
+
+
+@app.route('/add', methods=['GET', 'POST'])
 def add_food():
     if request.method == 'POST':
-        pass
+        vegetable = request.form.get('vegetable') if request.form.get('vegetable').lower() != 'nil' else None
+        meat = request.form.get('meat') if request.form.get('meat').lower() != 'nil' else None
+        whole_meal = request.form.get('whole_meal') if request.form.get('whole_meal').lower() != 'nil' else None
+        drink = request.form.get('drink') if request.form.get('drink').lower() != 'nil' else None
+        
     return render_template('add-food.html')
 
 

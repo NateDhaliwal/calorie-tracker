@@ -6,21 +6,33 @@
 
 <h1>Add food</h1>
 <form action="/add" method="post">
-    <label for="vegetable">
-        Add vegetables, seperate by a comma.
-        <input name="vegetable" type="text" required>
-    </label>
-    <br>
-    <label for="meat">
-        Add meat, seperate by a comma.
-        <input name="vegetable" type="text" required>
-    </label>
+    <div class="add-food-form">
+        <fieldset class="deconstructed-food">
+            <legend>Add food by individual items. If entering whole meal, put 'Nil' in all fields.</legend>
+            <label for="vegetable">
+                Add vegetables, seperate by a comma.
+                <input name="vegetable" type="text" required>
+            </label>
+            <br>
+            <label for="meat">
+                Add meat, seperate by a comma.
+                <input name="vegetable" type="text" required>
+            </label>
+        </fieldset>
+        <fieldset class="whole-meal-food">
+            <legend>Add food as whole meal, e.g. Laksa/Nasi Lemak. If entering deconstructed food, put 'Nil'.</legend>
+            <label for="whole_meal">
+                Add meal.
+                <input name="whole_meal" type="text" required>
+            </label>
+        </fieldset>
+    </div>
     <br>
     <label for="drink">
-        Add drink, seperate by a comma.
-        <input name="drink" type="text" required>
+        Add drink, seperate by a comma. If none, put 'Nil'.
+        <input name="drink" type="text">
     </label>
-    <br>
+    <br><br>
     <button class="btn btn-primary" type="submit"><i class="fa-solid fa-plus"></i> Add food</button>
 </form>
 

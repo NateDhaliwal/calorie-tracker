@@ -9,11 +9,12 @@
     <p>Calories today: {{userdata['calories_total']}} / {{userdata['max_calories']}}</p>
     <br><br>
     <button class="btn btn-primary" id="add-food"><i class="fa-solid fa-plus"></i> Add food</button>
+    <script src="/static/js/home-logged-in.js" type="text/javascript"></script>
 {% else %}
     <h1>Login or register to get started</h1>
     <button class="btn btn-primary" id="login-btn">Login</button>
     <br>
     <button class="btn btn-primary" id="register-btn">Register</button>
-    <script src="/static/js/home.js" type="text/javascript"></script>
+    <script src="/static/js/home-logged-out.js" type="text/javascript"></script>
 {% endif %}
 {% endblock %}
