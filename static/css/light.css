@@ -63,7 +63,7 @@ p {
     color: var(--primary);
 }
 
-.btn, input {
+.btn, input, select {
     padding: 3px;
     border: 2px solid var(--primary);
     border-radius: 5px;
@@ -114,17 +114,25 @@ p {
     grid-column: 3;
 }
 
-.add-food-form {
+.food-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
+    grid-template-rows: 1fr 1fr;
     grid-column-gap: 10px;
 }
 
-.deconstructed-food {
+.deconstructed-food, .vegetables-confirm, .drink-confirm {
     grid-column: 1;
 }
 
-.whole-meal-food {
+.whole-meal-food, .meats-confirm, .meal-confirm {
     grid-column: 2;
+}
+
+.vegetables-confirm, .meats-confirm {
+    grid-row: 1;
+}
+
+.drink-confirm, .meal-confirm {
+    grid-row: 2;
 }

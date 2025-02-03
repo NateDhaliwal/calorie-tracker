@@ -116,49 +116,72 @@ def logout():
 
 
 
-@app.route('/add/1', methods=['GET', 'POST'])
+@app.route('/add', methods=['GET', 'POST'])
 def add_food():
     if request.method == 'POST':
         vegetables = ''
         meats = ''
         whole_meal = ''
         drink = ''
+        possible_drink_list = []
+        possible_whole_meal_list = {}
+        possible_meats_list = {}
+        possible_vegetables_list = {}
         if str(request.form.get('current_page')) == '1':
             vegetables = str(request.form.get('vegetable')) if str(request.form.get('vegetable')).lower() != 'nil' else None
             meats = str(request.form.get('meat')) if str(request.form.get('meat')).lower() != 'nil' else None
             whole_meal = str(request.form.get('whole_meal')) if str(request.form.get('whole_meal')).lower() != 'nil' else None
             drink = str(request.form.get('drink')) if str(request.form.get('drink')).lower() != 'nil' else None
+            
             vegetables = vegetables.split(',')
             for vegetable in vegetables:
-                vegetable.strip()
+                vegetable.strip().lower()
+
             meats = meats.split(',')
             for meat in meats:
-                meat.strip()
+                meat.strip().lower()
             
-            possible_vegetables_list = []
-            for vegetable in vegetables:
-                for possible_vegetable in fs.foods_search(vegetable, max_results=20):
-                    possible_vegetables_list.append(possible_vegetable['food_name'])
+            
+            if vegetables:
+                for vegetable in vegetables:
+                    possible_vegetables_list[vegetable] = []
+                    for possible_vegetable in fs.foods_search(vegetable, max_results=20):
+                        
+                        possible_vegetables_list[vegetable].append(possible_vegetable)
 
-            possible_meats_list = []
-            for meat in meats:
-                for possible_meat in fs.foods_search(meat, max_results=20):
-                    possible_meats_list.append(possible_meat['food_name'])
+            
+            if meats:
+                for meat in meats:
+                    possible_meats_list[meat] = []
+                    for possible_meat in fs.foods_search(meat, max_results=20):
+                        possible_meats_list[meat].append(possible_meat)
 
-            possible_whole_meal_list = []
-            for meal in whole_meal:
-                for possible_meal in fs.foods_search(meal, max_results=20):
-                    possible_whole_meal_list.append(possible_meal['food_name'])
+            
+            if whole_meal:
+                for meal in whole_meal:
+                    possible_whole_meal_list[meal] = []
+                    for possible_meal in fs.foods_search(meal, max_results=20):
+                        possible_whole_meal_list[meal].append(possible_meal)
 
-            possible_meats_list = []
-            for meat in meats:
-                for possible_meat in fs.foods_search(meat, max_results=20):
-                    possible_meats_list.append(possible_meat['food_name'])
-        #else:
+            
+            if drink:
+                for possible_drink in fs.foods_search(drink, max_results=20):
+                    
+                    possible_drink_list.append(possible_drink)
 
+            return render_template('add-food.html', page=2, possible_drink_list=possible_drink_list, possible_meats_list=possible_meats_list, possible_vegetables_list=possible_vegetables_list, possible_whole_meal_list=possible_whole_meal_list)
 
         
     return render_template('add-food.html', page=1)
+
+
+@app.route('/added', methods=['GET', 'POST'])
+def added_all_food():
+    final_foods = {}
+    for name, value in request.form.items():
+        final_foods[name] = value
+    print(final_foods)
+    return redirect('/')
 
 
 app.run('0.0.0.0', port=8080, debug=True)
