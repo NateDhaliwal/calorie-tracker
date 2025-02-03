@@ -4,8 +4,10 @@
 
 {% block content %}
 
+{% if page == 1 %}
 <h1>Add food</h1>
 <form action="/add" method="post">
+    <input name="current_page" type="text" value="{{page}}" hidden>
     <div class="add-food-form">
         <fieldset class="deconstructed-food">
             <legend>Add food by individual items. If entering whole meal, put 'Nil' in all fields.</legend>
@@ -35,5 +37,8 @@
     <br><br>
     <button class="btn btn-primary" type="submit"><i class="fa-solid fa-plus"></i> Add food</button>
 </form>
+{% else %}
+
+{% endif %}
 
 {% endblock %}
