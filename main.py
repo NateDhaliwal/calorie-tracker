@@ -178,7 +178,6 @@ def add_food():
                 for vegetable in vegetables:
                     possible_vegetables_list[vegetable] = []
                     for possible_vegetable in fs.foods_search(vegetable, max_results=20):
-                        
                         possible_vegetables_list[vegetable].append(possible_vegetable)
 
             
@@ -191,9 +190,7 @@ def add_food():
             
             if whole_meal:
                 for possible_meal in fs.foods_search(whole_meal, max_results=20):
-                    print(possible_meal)
                     possible_whole_meal_list.append(possible_meal)
-                    print(possible_whole_meal_list)
 
             
             if drink:
@@ -222,7 +219,4 @@ def added_all_food():
     print(userdata[session['username']]['total_calories'])
 
 
-    return redirect('/'), flash('success|Food added!')
-
-
-app.run('0.0.0.0', port=8080, debug=True)
+app.run(host="0.0.0.0", port=8080, debug=True)
