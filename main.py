@@ -126,8 +126,12 @@ def home():
     if username == '':
         return render_template('home.html')
     else:
-        return render_template('home.html', userdata=userdata[username])
-
+        total_calories = 0
+    for date, list_items in userdata[username]['total_calories'].items():
+        for item in list_items:
+            for name, data in item.items():
+                total_calories += int(data['calories'].rstrip('kcal'))
+    return render_template('home.html', userdata=userdata[username], total_calories=total_calories)
 
 
 @login_required
@@ -215,12 +219,11 @@ def added_all_food():
     print(total_calories)
     userd = userdata[session['username']]
     datenow = str(datetime.now().strftime('%d/%m/%Y'))
-    userd['total_calories'][datenow] = final_foods
+    if datenow in userd['total_calories'].keys():
+        pass
+    else:
+        userd['total_calories'][datenow] = []
+    userd['total_calories'][datenow].append(final_foods)
     userdata[session['username']] = userd
     print(userdata[session['username']]['total_calories'])
     return redirect('/')
-
-#app.run(host="0.0.0.0", port=8080, debug=True)
-
-#import os
-#os.system("gunicorn -w 4 'main:app'")

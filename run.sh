@@ -1,1 +1,1 @@
-gunicorn -w 4 'main:app'
+gunicorn -w 4 'main:app' --reload
