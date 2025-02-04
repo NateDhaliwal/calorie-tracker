@@ -211,13 +211,14 @@ def added_all_food():
     for name, value in request.form.items():
         final_foods[name] = {'full_name': value.split('|')[0], 'calories': value.split('|')[1]}
         total_calories += int(value.split('|')[1].rstrip('kcal'))
-    
+
+    print(total_calories)
     userd = userdata[session['username']]
     datenow = str(datetime.now().strftime('%d/%m/%Y'))
     userd['total_calories'][datenow] = final_foods
     userdata[session['username']] = userd
     print(userdata[session['username']]['total_calories'])
-
+    return redirect('/')
 
 #app.run(host="0.0.0.0", port=8080, debug=True)
 
