@@ -219,4 +219,7 @@ def added_all_food():
     print(userdata[session['username']]['total_calories'])
 
 
-app.run(host="0.0.0.0", port=8080, debug=True)
+#app.run(host="0.0.0.0", port=8080, debug=True)
+
+#import os
+#os.system("gunicorn -w 4 'main:app'")
