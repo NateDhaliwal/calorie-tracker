@@ -45,19 +45,19 @@
             <fieldset class="vegetables-confirm">
                 <legend>Confirm your vegetable choice.</legend>
                 {% for name, possible_vegetable_items in possible_vegetables_list.items() %}
-                    <label for="vegetables-confirm">
+                    <label for="{{name}}">
                         Confirm {{name}}:
-                        <select name="vegetables-confirm" required>
+                        <select name="{{name}}" required>
                             {% for possible_vegetable in possible_vegetable_items %}
 
                                 {% set brand_name = possible_vegetable['brand_name'] %}
                                 {% set food_name = possible_vegetable['food_name'] %}
-                                {% set calories = possible_meat['food_description'].split('Calories: ')[1].split(' | Fat:')[0] %}
+                                {% set calories = possible_vegetable['food_description'].split('Calories: ')[1].split(' | Fat:')[0] %}
 
                                 {% if brand_name == None or brand_name == '' or 'brand_name' not in possible_vegetable %}
-                                    <option>{{food_name}} (brand unspecified) | {{calories}}</option>
+                                    <option value="{{food_name}} (brand unspecified)|{{calories}}">{{food_name}} (brand unspecified)</option>
                                 {% else %}
-                                    <option>{{brand_name}}'s {{food_name}}</option>
+                                    <option value="{{brand_name}}'s {{food_name}}|{{calories}}">{{brand_name}}'s {{food_name}}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
@@ -71,18 +71,19 @@
             <fieldset class="meats-confirm">
                 <legend>Confirm your meat choice.</legend>
                 {% for name, possible_meat_items in possible_meats_list.items() %}
-                    <label for="meats-confirm">
+                    <label for="{{name}}">
                         Confirm {{name}}:
-                        <select name="meats-confirm" required>
+                        <select name="{{name}}" required>
                             {% for possible_meat in possible_meat_items %}
                                 
                                 {% set brand_name = possible_meat['brand_name'] %}
                                 {% set food_name = possible_meat['food_name'] %}
                                 {% set calories = possible_meat['food_description'].split('Calories: ')[1].split(' | Fat:')[0] %}
+                                
                                 {% if brand_name == None or brand_name == '' or 'brand_name' not in possible_meat %}
-                                    <option>{{food_name}} (brand unspecified) | {{calories}}</option>
+                                    <option value="{{food_name}} (brand unspecified)|{{calories}}">{{food_name}} (brand unspecified)</option>
                                 {% else %}
-                                    <option>{{brand_name}}'s {{food_name}} | {{calories}}</option>
+                                    <option value="{{brand_name}}'s {{food_name}}|{{calories}}">{{brand_name}}'s {{food_name}}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
@@ -96,16 +97,18 @@
             <fieldset class="drink-confirm">
                 <legend>Confirm your drink choice.</legend>
                 <label for="drink-confirm">
-                    Confirm {{food_name}}:
-                    <select name="drink-confirm" required>
+                    Confirm drink:
+                    <select name="drink">
                         {% for possible_drink in possible_drink_list %}
                             {% set brand_name = possible_drink['brand_name'] %}
                             {% set food_name = possible_drink['food_name'] %}
-                                {% if brand_name == None or brand_name == '' or 'brand_name' not in possible_drink %}
-                                    <option>{{food_name}} (brand unspecified)</option>
-                                {% else %}
-                                    <option>{{brand_name}}'s {{food_name}}</option>
-                                {% endif %}
+                            {% set calories = possible_drink['food_description'].split('Calories: ')[1].split(' | Fat:')[0] %}
+                            
+                            {% if brand_name == None or brand_name == '' or 'brand_name' not in possible_drink %}
+                                <option value="{{food_name}} (brand unspecified)|{{calories}}">{{food_name}} (brand unspecified)</option>
+                            {% else %}
+                                <option value="{{brand_name}}'s {{food_name}}|{{calories}}">{{brand_name}}'s {{food_name}}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </label>
@@ -113,35 +116,49 @@
             </fieldset>
         {% endif %}
 
-        {% if possible_whole_meal_list != {} %}
-            <fieldset class="meal-confirm">
-                <legend>Confirm your meal choice.</legend>
-                {% for name, possible_meal_items in possible_whole_meal_list.items() %}
-                    <label for="meal-confirm">
-                        Confirm {{name}}:
-                        <select name="meal-confirm" required>
-                            {% for possible_meal in possible_meal_items %}
-
-                                {% set brand_name = possible_meal['brand_name'] %}
-                                {% set food_name = possible_meal['food_name'] %}
-                                
-
-                                {% if brand_name == None or brand_name == '' or 'brand_name' not in possible_meal %}
-                                    <option>{{food_name}} (brand unspecified)</option>
-                                {% else %}
-                                    <option>{{brand_name}}'s {{food_name}} | </option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </label>
-                    <br>
-                {% endfor %}
-            </fieldset>
+        {% if possible_whole_meal_list != [] %}
+        <fieldset class="meal-confirm">
+            <legend>Confirm your meal choice.</legend>
+            <label for="meal-confirm">
+                Confirm meal:
+                <select name="meal">
+                    {% for possible_meal in possible_whole_meal_list %}
+                        {% set brand_name = possible_meal['brand_name'] %}
+                        {% set food_name = possible_meal['food_name'] %}
+                        {% set calories = possible_meal['food_description'].split('Calories: ')[1].split(' | Fat:')[0] %}
+                        
+                        {% if brand_name == None or brand_name == '' or 'brand_name' not in possible_meal %}
+                            <option value="{{food_name}} (brand unspecified)|{{calories}}">{{food_name}} (brand unspecified)</option>
+                        {% else %}
+                            <option value="{{brand_name}}'s {{food_name}}|{{calories}}">{{brand_name}}'s {{food_name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </label>
+            <br>
+        </fieldset>
         {% endif %}
     </div>
     <br>
     <button type="submit" class="btn btn-primary">Confirm</button>
 </form>
+
+<script>
+    /*
+    function getAndSet(selectObject, hiddenInput) {
+        var value = selectObject.value;  
+        hiddenInput.value = value;
+        console.log(hiddenInput.value);
+    }
+    const vegetablesSelect = document.getElementById('vegetables-confirm-select');
+    const vegetablesHiddenInput = document.getElementById('vegetables-confirm-hidden-input')
+    vegetablesSelect.addEventListener('change', getAndSet(vegetablesSelect, vegetablesHiddenInput));
+
+    const meatsSelect = document.getElementById('meat-confirm-select');
+    const meatsHiddenInput = document.getElementById('meats-confirm-hidden-input');
+    */
+</script>
+
 {% endif %}
 
 {% endblock %}

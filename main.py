@@ -3,6 +3,7 @@ from fatsecret import Fatsecret
 from sqlitedict import SqliteDict
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from functools import wraps
 
 fs = Fatsecret("8298b96e554841309a2ee6094cd60be4", "e0d939065cb54d5c871d135a27eb6f7a")
 userdata = SqliteDict("userdata.sqlite", autocommit=True)
@@ -19,6 +20,26 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '897988c5237443caa9fa4af12de3df7a'
 
 
+# Only applied to some pages, like admin or chat
+def login_required(function):
+  @wraps(function)
+
+  def wrapper(*args, **kwargs):
+    try:
+        username = session['username']
+        if username:
+            pass
+    except KeyError:
+        session['username'] = ''
+
+    if session['username'] != '':
+      return function(*args, **kwargs)
+    return redirect(request.referrer)
+  return wrapper
+
+
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     try:
@@ -31,14 +52,22 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         passwordRaw = request.form.get('password')
+        print(username)
+        try:
+
+            userd = userdata[username]
+            
+        except KeyError:
+            return render_template('login.html'), flash('danger|No such user exists.')
+        
         passwordMatched = check_password_hash(userdata[username]['passwordHashed'], passwordRaw)
         if passwordMatched:
             # Login successful, redirect user to '/'
             session['username'] = username
             return redirect('/')
         else:
-            flash('danger|Username or password incorrect')
-            return render_template('login.html')
+            
+            return render_template('login.html'), flash('danger|Username or password incorrect')
     return render_template('login.html')
 
 
@@ -73,7 +102,7 @@ def register():
             'gender': gender,
             'height': height,
             'max_calories': max_calories,
-            'calories_total': {}
+            'total_calories': {}
         }
         # Login successful, redirect user to '/'
         session['username'] = username
@@ -100,6 +129,8 @@ def home():
         return render_template('home.html', userdata=userdata[username])
 
 
+
+@login_required
 @app.route('/logout')
 def logout():
     username = ''
@@ -115,7 +146,7 @@ def logout():
     return redirect('/'), flash(f'success|You have been logged out.')
 
 
-
+@login_required
 @app.route('/add', methods=['GET', 'POST'])
 def add_food():
     if request.method == 'POST':
@@ -124,7 +155,7 @@ def add_food():
         whole_meal = ''
         drink = ''
         possible_drink_list = []
-        possible_whole_meal_list = {}
+        possible_whole_meal_list = []
         possible_meats_list = {}
         possible_vegetables_list = {}
         if str(request.form.get('current_page')) == '1':
@@ -132,14 +163,15 @@ def add_food():
             meats = str(request.form.get('meat')) if str(request.form.get('meat')).lower() != 'nil' else None
             whole_meal = str(request.form.get('whole_meal')) if str(request.form.get('whole_meal')).lower() != 'nil' else None
             drink = str(request.form.get('drink')) if str(request.form.get('drink')).lower() != 'nil' else None
-            
-            vegetables = vegetables.split(',')
-            for vegetable in vegetables:
-                vegetable.strip().lower()
+            if vegetables:
+                vegetables = vegetables.split(',')
+                for vegetable in vegetables:
+                    vegetable.strip().lower()
 
-            meats = meats.split(',')
-            for meat in meats:
-                meat.strip().lower()
+            if meats:
+                meats = meats.split(',')
+                for meat in meats:
+                    meat.strip().lower()
             
             
             if vegetables:
@@ -158,15 +190,14 @@ def add_food():
 
             
             if whole_meal:
-                for meal in whole_meal:
-                    possible_whole_meal_list[meal] = []
-                    for possible_meal in fs.foods_search(meal, max_results=20):
-                        possible_whole_meal_list[meal].append(possible_meal)
+                for possible_meal in fs.foods_search(whole_meal, max_results=20):
+                    print(possible_meal)
+                    possible_whole_meal_list.append(possible_meal)
+                    print(possible_whole_meal_list)
 
             
             if drink:
                 for possible_drink in fs.foods_search(drink, max_results=20):
-                    
                     possible_drink_list.append(possible_drink)
 
             return render_template('add-food.html', page=2, possible_drink_list=possible_drink_list, possible_meats_list=possible_meats_list, possible_vegetables_list=possible_vegetables_list, possible_whole_meal_list=possible_whole_meal_list)
@@ -175,13 +206,23 @@ def add_food():
     return render_template('add-food.html', page=1)
 
 
+@login_required
 @app.route('/added', methods=['GET', 'POST'])
 def added_all_food():
     final_foods = {}
+    total_calories = 0
     for name, value in request.form.items():
-        final_foods[name] = value
-    print(final_foods)
-    return redirect('/')
+        final_foods[name] = {'full_name': value.split('|')[0], 'calories': value.split('|')[1]}
+        total_calories += int(value.split('|')[1].rstrip('kcal'))
+    
+    userd = userdata[session['username']]
+    datenow = str(datetime.now().strftime('%d/%m/%Y'))
+    userd['total_calories'][datenow] = final_foods
+    userdata[session['username']] = userd
+    print(userdata[session['username']]['total_calories'])
+
+
+    return redirect('/'), flash('success|Food added!')
 
 
 app.run('0.0.0.0', port=8080, debug=True)
