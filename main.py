@@ -128,9 +128,12 @@ def home():
     else:
         total_calories = 0
     for date, list_items in userdata[username]['total_calories'].items():
-        for item in list_items:
-            for name, data in item.items():
-                total_calories += int(data['calories'].rstrip('kcal'))
+        if str(date) == str(datetime.now().strftime('%d/%m/%Y')):
+            for item in list_items:
+                for name, data in item.items():
+                    total_calories += int(data['calories'].rstrip('kcal'))
+        else:
+            continue
     return render_template('home.html', userdata=userdata[username], total_calories=total_calories)
 
 
@@ -227,3 +230,9 @@ def added_all_food():
     userdata[session['username']] = userd
     print(userdata[session['username']]['total_calories'])
     return redirect('/')
+
+
+@login_required
+@app.route('/activity')
+def activity():
+    return render_template('activity.html')
