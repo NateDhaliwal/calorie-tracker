@@ -228,11 +228,12 @@ def added_all_food():
         userd['total_calories'][datenow] = []
     userd['total_calories'][datenow].append(final_foods)
     userdata[session['username']] = userd
-    print(userdata[session['username']]['total_calories'])
     return redirect('/')
 
 
 @login_required
 @app.route('/activity')
 def activity():
+    username = session['username']
+    
     return render_template('activity.html')
