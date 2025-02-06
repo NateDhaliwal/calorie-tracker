@@ -8,13 +8,31 @@
     <h1>Welcome, {{session['username']}}!</h1>
     <p>Calories today: {{total_calories}} / {{userdata['max_calories']}}</p>
     <br><br>
-    <button class="btn btn-primary" id="add-food"><i class="fa-solid fa-plus"></i> Add food</button>
+    <button class="btn btn-primary" id="add-food">
+        <a href="/add">
+            <i class="fa-solid fa-plus"></i> Add food
+        </a>
+    </button>
     <script src="/static/js/home-logged-in.js" type="text/javascript"></script>
 {% else %}
-    <h1>Login or register to get started</h1>
-    <button class="btn btn-primary" id="login-btn">Login</button>
-    <br>
-    <button class="btn btn-primary" id="register-btn">Register</button>
-    <script src="/static/js/home-logged-out.js" type="text/javascript"></script>
+    <div class="homepage-logged-out">
+        <div class="login-signup">
+            <h1>Login or register to get started</h1>
+        <button class="btn btn-primary" id="login-btn">
+            <a class="button-link" href="/login">
+                Login
+            </a>
+        </button>
+        <br>
+        <button class="btn btn-primary" id="register-btn">
+            <a class="button-link" href="/register">
+                Register
+            </a>
+        </button>
+        </div>
+        <div class="about-site">
+            <p>This is the calorie tracker app.</p>
+        </div>
+    </div>
 {% endif %}
 {% endblock %}

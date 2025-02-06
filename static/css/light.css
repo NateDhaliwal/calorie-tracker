@@ -80,6 +80,11 @@ p {
     transform: scale(1.1);
 }
 
+a.button-link {
+    color: var(--primary);
+    text-decoration: none !important;
+}
+
 .site-header {
     width: 100%;
     height:10%;
@@ -135,4 +140,19 @@ p {
 
 .drink-confirm, .meal-confirm {
     grid-row: 2;
+}
+
+.homepage-logged-out {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    height: 80%;
+}
+
+.login-signup {
+    grid-column: 2;
+}
+
+.about-site {
+    grid-column: 1;
 }
