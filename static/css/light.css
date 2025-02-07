@@ -112,6 +112,11 @@ a.button-link {
     grid-column: 2;
 }
 
+#aSiteTitle {
+    text-decoration: none;
+    color: var(--primary);
+}
+
 .btn.site-logout {
     width: 50%;
     position: relative;
@@ -150,9 +155,12 @@ a.button-link {
 }
 
 .login-signup {
+    grid-row: 1;
     grid-column: 2;
 }
 
 .about-site {
+    margin-top: 10px;
+    grid-row: 1;
     grid-column: 1;
 }
