@@ -16,6 +16,7 @@ for food in foods:
     if food['food_name'] == "Nasi Lemak":
         print(food['food_description'])
 '''
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '897988c5237443caa9fa4af12de3df7a'
 
@@ -235,5 +236,34 @@ def added_all_food():
 @app.route('/activity')
 def activity():
     username = session['username']
+    sorted_dict = dict(sorted(userdata[username]['total_calories'].items(), key=lambda item: datetime.strptime(item[0], '%d/%m/%Y'), reverse=True))
+    return render_template('activity.html', datetime=datetime, dict=dict, sorted=sorted, allEaten=sorted_dict)
+
+
+@login_required
+@app.route('/account', methods=['GET', 'POST'])
+def account():
+    username = session['username']
+    if request.method == 'POST':
+        age = int(request.form.get('age'))
+        weight = int(request.form.get('weight'))
+        gender = str(request.form.get('gender'))
+        height = int(request.form.get('height'))
+
+        userd = userdata[username]
+        userd['age'] = age
+        userd['weight'] = weight
+        userd['gender'] = gender
+        userd['height'] = height
+        if gender == 'Male':
+            max_calories = round(66.47 + (13.75*weight) + (5.003*height) - (6.755*age))
+        elif gender == 'Female':
+            max_calories = round(655.1 + (9.563*weight) + (1.850*height) - (4.676*age))
+        userd['max_calories'] = max_calories
+        userdata[username] = userd
     
-    return render_template('activity.html')
+    currentAge = userdata[username]['age']
+    currentWeight = userdata[username]['weight']
+    currentGender = userdata[username]['gender']
+    currentHeight = userdata[username]['height']
+    return render_template('account.html', currentAge=currentAge, currentWeight=currentWeight, currentGender=currentGender, currentHeight=currentHeight)

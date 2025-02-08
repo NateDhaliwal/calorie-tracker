@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}My Activity{% endblock %}
+
+{% block content %}
+
+<h1>My Activity</h1>
+
+<div class="food-history">
+    {% for date, eaten in allEaten.items() %}
+        <div class="card">
+            <p>{{date}}:</p>
+            <ol>
+                {% for food in eaten %}
+                    {% for name, data in food.items() %}
+                        <li>
+                            {{name.title()}} - {{data['full_name']}}
+                            <br>
+                            Calories - {{data['calories']}}
+                        </li>
+                        <br>
+                    {% endfor %}
+                {% endfor %}
+            </ol>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

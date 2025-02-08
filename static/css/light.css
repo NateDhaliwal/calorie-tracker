@@ -72,17 +72,14 @@ p {
     cursor: pointer;
     margin: 3px;
     transition: transform 0.2s;
+    text-decoration: none;
 }
+
 
 .btn:hover, input:hover {
     background-color: var(--primary);
     color: var(--secondary);
     transform: scale(1.1);
-}
-
-a.button-link {
-    color: var(--primary);
-    text-decoration: none !important;
 }
 
 .site-header {
@@ -117,11 +114,12 @@ a.button-link {
     color: var(--primary);
 }
 
-.btn.site-logout {
+.site-logout {
     width: 50%;
     position: relative;
     float: right;
     grid-column: 3;
+    align-self: center;
 }
 
 .food-form {
@@ -149,9 +147,10 @@ a.button-link {
 
 .homepage-logged-out {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-    height: 80%;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 200px;
+    grid-template-areas: 
+        "about-site login-signup";
 }
 
 .login-signup {
@@ -160,7 +159,29 @@ a.button-link {
 }
 
 .about-site {
-    margin-top: 10px;
+    padding-top: 10px;
     grid-row: 1;
     grid-column: 1;
+}
+
+div.main {
+    display: grid;
+    grid-template-columns: 80% 30%;
+    grid-template-rows: 100%;
+    grid-template-areas: "content sidebar";
+}
+
+div.content {
+    grid-column: 1;
+}
+
+div.sidebar {
+    grid-column: 2;
+}
+
+div.card {
+    border: 2px solid var(--primary);
+    border-radius: 5px;
+    padding: 3px;
+    margin: 10px 0;
 }

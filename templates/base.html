@@ -19,9 +19,11 @@
             </a>
         </h2>
         {% if session['username'] %}
-            <button class="btn site-logout" id="site-logout">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-            </button>
+            <a class="site-logout" href="/logout">
+                <button class="btn btn-primary">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                </button>
+            </a>
         {% endif %}
     </header>
 
@@ -37,6 +39,5 @@
     
     {% block content %}
     {% endblock %}
-    <script type="text/javascript" src="/static/js/base.js"></script>
 </body>
 </html>

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}My Account{% endblock %}
+
+{% block content %}
+
+<h1>View and edit account details</h1>
+<form action="/register" method="post">
+    <label for="age">
+        Age:
+        <input name="age" type="number" min="20" max="70" value="{{currentAge}}" required>
+    </label>
+    <br>
+    <label for="weight">
+        Weight:
+        <input name="weight" type="number" min="50" max="300" value="{{currentWeight}}" required>
+    </label>
+    <br>
+    <label for="height">
+        Height:
+        <input name="height" type="number" min="120" max="200" value="{{currentHeight}}" required>
+    </label>
+    <br>
+    <label for="gender">
+        Gender:
+        <select name="gender" required>
+            {% if currentGender == 'Male' %}
+                <option selected>Male</option>
+                <option>Female</option>
+            {% else %}
+                <option>Male</option>
+                <option selected>Female</option>
+            {% endif %}
+        </select>
+    </label>
+    <br>
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>
+
+{% endblock %}
