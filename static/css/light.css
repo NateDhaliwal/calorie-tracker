@@ -8,6 +8,8 @@
     --success-light: rgb(0, 171, 0);
     --danger-dark: rgb(169, 0, 0);
     --danger-light: red;
+    --warning-light: rgb(207, 207, 0);
+    --warning-dark: orange;
 }
 
 body {
@@ -164,24 +166,17 @@ p {
     grid-column: 1;
 }
 
-div.main {
-    display: grid;
-    grid-template-columns: 80% 30%;
-    grid-template-rows: 100%;
-    grid-template-areas: "content sidebar";
-}
-
-div.content {
-    grid-column: 1;
-}
-
-div.sidebar {
-    grid-column: 2;
-}
-
 div.card {
     border: 2px solid var(--primary);
     border-radius: 5px;
     padding: 3px;
     margin: 10px 0;
+}
+
+span.danger {
+    color: var(--danger-light);
+}
+
+span.warning {
+    color: var(--warning-dark);
 }

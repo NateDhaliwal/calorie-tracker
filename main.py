@@ -92,7 +92,7 @@ def register():
         max_calories = 0
         # Create user data
         if gender == 'Male':
-            max_calories = round(66.47 + (13.75*weight) + (5.003*height) - (6.755*age))
+            max_calories = round(10*weight + 6.25 * height - 5 * age + 5)
         elif gender == 'Female':
             max_calories = round(655.1 + (9.563*weight) + (1.850*height) - (4.676*age))
         userdata[username] = {
@@ -128,14 +128,17 @@ def home():
         return render_template('home.html')
     else:
         total_calories = 0
+        todays_items = {}
+
     for date, list_items in userdata[username]['total_calories'].items():
         if str(date) == str(datetime.now().strftime('%d/%m/%Y')):
             for item in list_items:
+                todays_items = list_items
                 for name, data in item.items():
                     total_calories += int(data['calories'].rstrip('kcal'))
         else:
             continue
-    return render_template('home.html', userdata=userdata[username], total_calories=total_calories)
+    return render_template('home.html', todays_items=todays_items, userdata=userdata[username], total_calories=total_calories)
 
 
 @login_required
@@ -220,7 +223,6 @@ def added_all_food():
         final_foods[name] = {'full_name': value.split('|')[0], 'calories': value.split('|')[1]}
         total_calories += int(value.split('|')[1].rstrip('kcal'))
 
-    print(total_calories)
     userd = userdata[session['username']]
     datenow = str(datetime.now().strftime('%d/%m/%Y'))
     if datenow in userd['total_calories'].keys():
@@ -256,7 +258,7 @@ def account():
         userd['gender'] = gender
         userd['height'] = height
         if gender == 'Male':
-            max_calories = round(66.47 + (13.75*weight) + (5.003*height) - (6.755*age))
+            max_calories = round(10*weight + 6.25 * height - 5 * age + 5)
         elif gender == 'Female':
             max_calories = round(655.1 + (9.563*weight) + (1.850*height) - (4.676*age))
         userd['max_calories'] = max_calories
