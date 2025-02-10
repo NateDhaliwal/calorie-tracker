@@ -148,23 +148,23 @@ p {
 }
 
 .homepage-logged-out {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 200px;
-    grid-template-areas: 
-        "about-site login-signup";
+    display: flex;
+    flex-direction: row;
+    height: max-content;
 }
 
 .login-signup {
-    grid-row: 1;
-    grid-column: 2;
+    order: 2;
+    width: 50%;
 }
 
 .about-site {
     padding-top: 10px;
-    grid-row: 1;
-    grid-column: 1;
+    order: 1;
+    width: 50%;
 }
+
+
 
 div.card {
     border: 2px solid var(--primary);
