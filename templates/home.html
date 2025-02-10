@@ -11,7 +11,7 @@
     {% elif total_calories == userdata['max_calories'] %}
         <p>Calories today: <span class='warning'>{{total_calories}}</span> / {{userdata['max_calories']}}</p>
     {% else %}
-        <p>Calories today: {{total_calories}} / {{userdata['max_calories']}}</p>
+        <p>Calories today: <span class="success">{{total_calories}}</span> / {{userdata['max_calories']}}</p>
     {% endif %}
     <br><br>
     <a href="/add">
@@ -34,14 +34,18 @@
     <br>
     <h3>Today's items eaten:</h3>
     <ul>
-        {% for name, data in todays_items[0].items() %}
-            <li>
-                {{name.title()}} - {{data['full_name']}}
+        {% if todays_items == {} %}
+            <p>No foods yet!</p>
+        {% else %}
+            {% for name, data in todays_items[0].items() %}
+                <li>
+                    {{name.title()}} - {{data['full_name']}}
+                    <br>
+                    Calories - {{data['calories']}}
+                </li>
                 <br>
-                Calories - {{data['calories']}}
-            </li>
-            <br>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
     </ul>
 
 {% else %}

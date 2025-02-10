@@ -153,7 +153,6 @@ def logout():
 
     if username != '':
         usernamePopped = session.pop('username')
-
     return redirect('/'), flash(f'success|You have been logged out.')
 
 
@@ -263,6 +262,7 @@ def account():
             max_calories = round(655.1 + (9.563*weight) + (1.850*height) - (4.676*age))
         userd['max_calories'] = max_calories
         userdata[username] = userd
+        return redirect('/'), flash('success|Updated account details!')
     
     currentAge = userdata[username]['age']
     currentWeight = userdata[username]['weight']

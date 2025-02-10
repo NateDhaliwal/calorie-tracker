@@ -173,6 +173,10 @@ div.card {
     margin: 10px 0;
 }
 
+span.success {
+    color: var(--success-dark);
+}
+
 span.danger {
     color: var(--danger-light);
 }
