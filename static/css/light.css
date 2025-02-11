@@ -7,7 +7,7 @@
     --success-dark: green;
     --success-light: rgb(0, 171, 0);
     --danger-dark: rgb(169, 0, 0);
-    --danger-light: red;
+    --danger-light: rgb(228, 0, 0);
     --warning-light: rgb(207, 207, 0);
     --warning-dark: orange;
 }
@@ -81,6 +81,18 @@ p {
 .btn:hover, input:hover {
     background-color: var(--primary);
     color: var(--secondary);
+    transform: scale(1.1);
+}
+
+.btn-danger {
+    background-color: var(--danger-light);
+    color: white;
+    border: 3px solid var(--danger-light);
+}
+
+.btn-danger:hover {
+    background-color: var(--danger-light);
+    color: white;
     transform: scale(1.1);
 }
 

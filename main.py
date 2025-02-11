@@ -269,3 +269,26 @@ def account():
     currentGender = userdata[username]['gender']
     currentHeight = userdata[username]['height']
     return render_template('account.html', currentAge=currentAge, currentWeight=currentWeight, currentGender=currentGender, currentHeight=currentHeight)
+
+
+@login_required
+@app.route('/delete-item', methods=['POST'])
+def delete_item():
+    item_to_delete = request.form.get('item-to-delete')
+    from_date = request.form.get('from-date')
+    eaten_items = userdata[session['username']]['total_calories']
+
+    return redirect(f'/activity#{from_date}')
+
+
+@app.errorhandler(404)
+def page_404(error):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def page_500(error):
+    return render_template('500.html'), 500
+
+@app.errorhandler(405)
+def page_405(error):
+    return render_template('405.html'), 405

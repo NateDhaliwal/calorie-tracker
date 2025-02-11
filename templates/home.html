@@ -33,21 +33,21 @@
     </a>
     <br>
     <h3>Today's items eaten:</h3>
-    <ul>
-        {% if todays_items == {} %}
-            <p>No foods yet!</p>
-        {% else %}
-            {% for name, data in todays_items[0].items() %}
+    {% if todays_items == {} %}
+        <p>No foods yet!</p>
+    {% else %}
+        {% for name, data in todays_items[0].items() %}
+            <ul>
                 <li>
                     {{name.title()}} - {{data['full_name']}}
                     <br>
                     Calories - {{data['calories']}}
                 </li>
                 <br>
-            {% endfor %}
-        {% endif %}
-    </ul>
-
+            </ul>
+        {% endfor %}
+    {% endif %}
+    
 {% else %}
     <div class="homepage-logged-out">
         <div class="login-signup">
