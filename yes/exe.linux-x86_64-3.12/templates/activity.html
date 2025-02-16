@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}My Activity{% endblock %}
+
+{% block content %}
+
+<h1>My Activity</h1>
+
+<div class="food-history">
+    {% for date, eaten in allEaten.items() %}
+        <div class="card" id="{{date}}">
+            <p>{{date}}:</p>
+            <ol>
+                {% for food in eaten %}
+                    {% for name, data in food.items() %}
+                        <li>
+                            {{name.title()}} - {{data['full_name']}}
+                            <br>
+                            Calories - {{data['calories']}}
+                        </li>
+                        <form action="/delete-item" method="post">
+                            <input name="item-to-delete" type="text" value="{{name}}" hidden>
+                            <input name="from-date" type="text" value="{{date}}" hidden>
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                        <br>
+                    {% endfor %}
+                {% endfor %}
+            </ol>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

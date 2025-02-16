@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+:root {
+    --primary: black;
+    --secondary: white;
+    --success-dark: green;
+    --success-light: rgb(0, 171, 0);
+    --danger-dark: rgb(169, 0, 0);
+    --danger-light: rgb(228, 0, 0);
+    --warning-light: rgb(207, 207, 0);
+    --warning-dark: orange;
+}
+
+body {
+    text-align: center;
+    font-family: 'Inter', serif;
+}
+
+.flash {
+    padding-left: 3px;
+    padding:3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    --moz-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Firefox */
+    --webkit-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Safari and Chrome */
+    --o-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 5s forwards;
+    --webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+@keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        display: none;
+    }
+}
+
+@-webkit-keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        display: none;
+    }
+}
+
+.flash.success {
+    border-left: 5px var(--success-dark) solid;
+    background-color: var(--success-light);
+    color: var(--secondary);
+}
+
+.flash.danger {
+    border-left: 5px var(--danger-dark) solid;
+    background-color: var(--danger-light);
+    color: var(--secondary);
+}
+
+p {
+    color: var(--primary);
+}
+
+.btn, input, select {
+    padding: 3px;
+    border: 2px solid var(--primary);
+    border-radius: 5px;
+    color: var(--primary);
+    background-color: transparent;
+    cursor: pointer;
+    margin: 3px;
+    transition: transform 0.2s;
+    text-decoration: none;
+}
+
+
+.btn:hover, input:hover {
+    background-color: var(--primary);
+    color: var(--secondary);
+    transform: scale(1.1);
+}
+
+.btn-danger {
+    background-color: var(--danger-light);
+    color: white;
+    border: 3px solid var(--danger-light);
+}
+
+.btn-danger:hover {
+    background-color: var(--danger-light);
+    color: white;
+    transform: scale(1.1);
+}
+
+.site-header {
+    width: 100%;
+    height:10%;
+    top: 0;
+    position: sticky;
+    z-index: 100;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 10px;
+    border: 2px solid var(--primary);
+    background-color: var(--secondary);
+}
+
+.site-logo {
+    position: relative;
+    margin-right: 3px;
+    border-radius: 5px;
+    grid-column: 1;
+}
+
+.site-title {
+    position: relative;
+    cursor: pointer;
+    grid-column: 2;
+}
+
+#aSiteTitle {
+    text-decoration: none;
+    color: var(--primary);
+}
+
+.site-logout {
+    width: 50%;
+    position: relative;
+    float: right;
+    grid-column: 3;
+    align-self: center;
+}
+
+.food-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-column-gap: 10px;
+}
+
+.deconstructed-food, .vegetables-confirm, .drink-confirm {
+    grid-column: 1;
+}
+
+.whole-meal-food, .meats-confirm, .meal-confirm {
+    grid-column: 2;
+}
+
+.vegetables-confirm, .meats-confirm {
+    grid-row: 1;
+}
+
+.drink-confirm, .meal-confirm {
+    grid-row: 2;
+}
+
+.homepage-logged-out {
+    display: flex;
+    flex-direction: row;
+    height: max-content;
+}
+
+.login-signup {
+    order: 2;
+    width: 50%;
+}
+
+.about-site {
+    padding-top: 10px;
+    order: 1;
+    width: 50%;
+}
+
+
+
+div.card {
+    border: 2px solid var(--primary);
+    border-radius: 5px;
+    padding: 3px;
+    margin: 10px 0;
+}
+
+span.success {
+    color: var(--success-dark);
+}
+
+span.danger {
+    color: var(--danger-light);
+}
+
+span.warning {
+    color: var(--warning-dark);
+}

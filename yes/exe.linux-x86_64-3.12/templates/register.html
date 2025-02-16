@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<h1>Register</h1>
+<p>Register and create an account.</p>
+<form action="/register" method="post">
+    <label for="username">
+        Username:
+        <input name="username" type="text" accept="/^\S*$/" required>
+    </label>
+    <br>
+    <label for="password">
+        Password:
+        <input name="password" type="password" accept="/^\S*$/" required>
+    </label>
+    <br>
+    <label for="age">
+        Age:
+        <input name="age" type="number" min="20" max="70" required>
+    </label>
+    <br>
+    <label for="weight">
+        Weight:
+        <input name="weight" type="number" min="50" max="300" required>
+    </label>
+    <br>
+    <label for="height">
+        Height:
+        <input name="height" type="number" min="120" max="200" required>
+    </label>
+    <br>
+    <label for="gender">
+        Gender:
+        <select name="gender" required>
+            <option selected>Male</option>
+            <option>Female</option>
+        </select>
+    </label>
+    <br>
+    <button class="btn btn-primary" type="submit">Register</button>
+</form>
+
+{% endblock %}
