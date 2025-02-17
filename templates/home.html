@@ -12,6 +12,8 @@
             You seem to be just on the limit! Perhaps you could try this piece of advice?
             <br>
             <i>{{generate_random_health_advice()}}</i>
+            <br>
+            It looks like the {{highest_calorie_items_dict['name'].lower()}} ({{highest_calorie_items_dict['full_name'].title()}}) is the highest calorie item you've eaten ({{highest_calorie_items_dict['calories']}} kcal)! You should cut down on that.
         </p>
     {% elif total_calories == userdata['max_calories'] %}
         <p>Calories today: <span class='warning'>{{total_calories}}</span> / {{userdata['max_calories']}}</p>
@@ -19,6 +21,8 @@
             You seem to be just on the limit! Perhaps you could try this piece of advice?
             <br>
             <i>{{generate_random_health_advice()}}</i>
+            <br>
+            It looks like the {{highest_calorie_items_dict['name'].lower()}} ({{highest_calorie_items_dict['full_name'].title()}}) is the highest calorie item you've eaten ({{highest_calorie_items_dict['calories']}} kcal)! You should cut down on that.
         </p>
     {% else %}
         <p>Calories today: <span class="success">{{total_calories}}</span> / {{userdata['max_calories']}}</p>
@@ -69,13 +73,13 @@
                 <button class="btn btn-primary">Login</button>
             </a>
         <br>
-        <p>Don't have an account yet? <a href="/register">Register here</a>.</p>
+        <p>Don't have an account yet? <a href="/signup">Sign up</a> here.</p>
         </div>
         <div class="about-site">
             <p>
                 This is the calorie tracker app. You can create an account and from there, input the meals you eat, either as a whole meal or as individual items.
                 <br> <!-- For newlines -->
-                Start by logging in/registering an account on the right.
+                Start by logging in or signing up for an account on the right.
             </p>
         </div>
     </div>

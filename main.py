@@ -73,8 +73,8 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
     try:
         username = session['username']
         if username:
@@ -109,7 +109,7 @@ def register():
         # Login successful, redirect user to '/'
         session['username'] = username
         return redirect('/')
-    return render_template('register.html')
+    return render_template('signup.html')
 
 
 @app.route('/')
@@ -131,15 +131,28 @@ def home():
         total_calories = 0
         todays_items = {}
 
+    highest_calorie_items_list = []
+
     for date, list_items in userdata[username]['total_calories'].items():
         if str(date) == str(datetime.now().strftime('%d/%m/%Y')):
             for item in list_items:
                 todays_items = list_items
                 for name, data in item.items():
+                    highest_calorie_items_list.append(
+                        {
+                            'name': name,
+                            'full_name': data['full_name'],
+                            'calories': int(data['calories'].rstrip('kcal'))
+                        }
+                    )
                     total_calories += int(data['calories'].rstrip('kcal'))
         else:
             continue
-    return render_template('home.html', todays_items=todays_items, userdata=userdata[username], total_calories=total_calories, generate_random_health_advice=generate_random_health_advice)
+    if highest_calorie_items_list != []:
+        highest_calorie_item_dict = max(highest_calorie_items_list, key=lambda x: x['calories'] if x else None)
+    else:
+        highest_calorie_item_dict = {}
+    return render_template('home.html', highest_calorie_items_dict=highest_calorie_item_dict, todays_items=todays_items, userdata=userdata[username], total_calories=total_calories, generate_random_health_advice=generate_random_health_advice)
 
 
 @login_required
