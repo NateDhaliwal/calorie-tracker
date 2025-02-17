@@ -130,6 +130,7 @@ def home():
         total_calories = 0
         todays_items = {}
 
+    health_advice = []
     for date, list_items in userdata[username]['total_calories'].items():
         if str(date) == str(datetime.now().strftime('%d/%m/%Y')):
             for item in list_items:
@@ -238,7 +239,7 @@ def added_all_food():
 def activity():
     username = session['username']
     sorted_dict = dict(sorted(userdata[username]['total_calories'].items(), key=lambda item: datetime.strptime(item[0], '%d/%m/%Y'), reverse=True))
-    return render_template('activity.html', datetime=datetime, dict=dict, sorted=sorted, allEaten=sorted_dict)
+    return render_template('activity.html', len=len, datetime=datetime, dict=dict, sorted=sorted, allEaten=sorted_dict)
 
 
 @login_required
@@ -276,9 +277,15 @@ def account():
 def delete_item():
     item_to_delete = request.form.get('item-to-delete')
     from_date = request.form.get('from-date')
-    eaten_items = userdata[session['username']]['total_calories']
-
-    return redirect(f'/activity#{from_date}')
+    userd = userdata[session['username']]
+    print(userd['total_calories'][from_date][0])
+    print(item_to_delete)
+    if item_to_delete in userd['total_calories'][str(from_date)][0].keys():
+        del userd['total_calories'][str(from_date)][0][str(item_to_delete)]
+    else:
+        return redirect('/activity'), flash('danger|Item not found.')
+    userdata[session['username']] = userd
+    return redirect('/activity')
 
 
 @app.errorhandler(404)
