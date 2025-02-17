@@ -6,9 +6,9 @@
 
 <h1>My Activity</h1>
 <div class="food-history">
-    {% if (len(allEaten.keys()) != 1) and (allEaten[allEaten.keys()[0]] == [{}]) %}
+    {% if (len(allEaten.keys()) > 1) %}
         {% for date, eaten in allEaten.items() %}
-            {% if eaten[1] != {} %}
+            {% if eaten != [{}] %}
                 <div class="card" id="{{date}}">
                     <p>{{date}}:</p>
                     

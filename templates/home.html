@@ -8,10 +8,23 @@
     <h1>Welcome, {{session['username']}}!</h1>
     {% if total_calories > userdata['max_calories'] %}
         <p>Calories today: <span class='danger'>{{total_calories}}</span> / {{userdata['max_calories']}}</p>
+        <p>
+            You seem to be just on the limit! Perhaps you could try this piece of advice?
+            <br>
+            <i>{{generate_random_health_advice()}}</i>
+        </p>
     {% elif total_calories == userdata['max_calories'] %}
         <p>Calories today: <span class='warning'>{{total_calories}}</span> / {{userdata['max_calories']}}</p>
+        <p>
+            You seem to be just on the limit! Perhaps you could try this piece of advice?
+            <br>
+            <i>{{generate_random_health_advice()}}</i>
+        </p>
     {% else %}
         <p>Calories today: <span class="success">{{total_calories}}</span> / {{userdata['max_calories']}}</p>
+        <p>
+            Looks like you're keeping to below your maximum calories! Keep it up!
+        </p>
     {% endif %}
     <br><br>
     <a href="/add">

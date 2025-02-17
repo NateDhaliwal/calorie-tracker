@@ -4,6 +4,7 @@ from sqlitedict import SqliteDict
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from functools import wraps
+from health_advice import generate_random_health_advice
 
 fs = Fatsecret("8298b96e554841309a2ee6094cd60be4", "e0d939065cb54d5c871d135a27eb6f7a")
 userdata = SqliteDict("userdata.sqlite", autocommit=True)
@@ -130,7 +131,6 @@ def home():
         total_calories = 0
         todays_items = {}
 
-    health_advice = []
     for date, list_items in userdata[username]['total_calories'].items():
         if str(date) == str(datetime.now().strftime('%d/%m/%Y')):
             for item in list_items:
@@ -139,7 +139,7 @@ def home():
                     total_calories += int(data['calories'].rstrip('kcal'))
         else:
             continue
-    return render_template('home.html', todays_items=todays_items, userdata=userdata[username], total_calories=total_calories)
+    return render_template('home.html', todays_items=todays_items, userdata=userdata[username], total_calories=total_calories, generate_random_health_advice=generate_random_health_advice)
 
 
 @login_required
@@ -278,14 +278,17 @@ def delete_item():
     item_to_delete = request.form.get('item-to-delete')
     from_date = request.form.get('from-date')
     userd = userdata[session['username']]
-    print(userd['total_calories'][from_date][0])
+
+    print(userd['total_calories'][str(from_date)][0], f"\n{userd['total_calories'][str(from_date)]}")
     print(item_to_delete)
-    if item_to_delete in userd['total_calories'][str(from_date)][0].keys():
-        del userd['total_calories'][str(from_date)][0][str(item_to_delete)]
-    else:
-        return redirect('/activity'), flash('danger|Item not found.')
+    for sessions_eaten in userd['total_calories'][str(from_date)]:
+        if item_to_delete in sessions_eaten:
+            del userd['total_calories'][str(from_date)][sessions_eaten][str(item_to_delete)]
+        else:
+            continue
     userdata[session['username']] = userd
     return redirect('/activity')
+
 
 
 @app.errorhandler(404)
