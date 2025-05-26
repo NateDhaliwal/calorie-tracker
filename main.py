@@ -315,3 +315,6 @@ def page_500(error):
 @app.errorhandler(405)
 def page_405(error):
     return render_template('405.html'), 405
+
+
+app.run(host='0.0.0.0', port=8080);
